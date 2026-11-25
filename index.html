@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOODLAB — Boutique de hoodies</title>
+<style>
+:root{--bg:#f6f4f1;--surface:#fff;--text:#15181d;--muted:#6b7280;--line:#e7e3de;--brand:#ff5a1f;--brand2:#1b1f26;--radius:14px}
+html.dark{--bg:#0d1014;--surface:#171b21;--text:#eceef1;--muted:#9aa2ad;--line:#2b313a;--brand:#ff7043}
+html{scroll-padding-top:76px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}button{cursor:pointer;font:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:14px;height:66px}
+.logo{font-weight:900;letter-spacing:-1px;font-size:22px}.logo span{color:var(--brand)}
+nav{display:flex;gap:18px;margin-left:18px}nav a{font-size:14px;color:var(--muted)}nav a.active,nav a:hover{color:var(--text)}
+.spacer{flex:1}.pill{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;padding:8px 14px;font-size:14px}
+.pill.primary{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.badge{background:var(--brand);color:#fff;border-radius:99px;padding:1px 7px;font-size:12px;margin-left:4px}
+input,select,textarea{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font:inherit;width:100%}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
+.hero{padding:54px 0 30px;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:0 0 12px;letter-spacing:-2px}
+.hero p{color:var(--muted);max-width:480px}.hero-art{background:var(--brand2);border-radius:22px;padding:24px;display:flex;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin:22px 0 40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.card .art{background:linear-gradient(135deg,#ece8e2,#dcd6cd);display:flex;align-items:center;justify-content:center;height:220px}
+html.dark .card .art{background:#20252d}.card h3{margin:12px 12px 2px;font-size:16px}.card .meta{margin:0 12px;color:var(--muted);font-size:13px}
+.card .row{display:flex;align-items:center;justify-content:space-between;padding:12px}.price{font-weight:800;font-size:18px}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.section{padding:20px 0}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.toolbar input{max-width:320px}.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 13px;font-size:13px}
+.chip.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;max-width:660px;margin:20px auto}
+.stack{display:grid;gap:8px}.line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+.total{font-weight:800;font-size:20px}.muted{color:var(--muted)}.small{font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.open{display:flex}.modal .panel{max-height:90vh;overflow:auto;width:100%}
+.ok{background:#16a34a;color:#fff;border-radius:99px;padding:3px 10px;font-size:12px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0;color:var(--muted);font-size:13px}
+footer a{margin-right:14px}@media(max-width:760px){.hero{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hrow">
+  <a href="#/" class="logo">HOOD<span>LAB</span></a>
+  <nav><a href="#/" data-nav="home">Accueil</a><a href="#/catalogue" data-nav="catalogue">Boutique</a><a href="#/suivi" data-nav="suivi">Suivi</a></nav>
+  <div class="spacer"></div>
+  <button class="pill" id="theme" title="Thème">◐</button>
+  <button class="pill" id="userBtn">Compte</button>
+  <button class="pill primary" id="cartBtn">Panier <span class="badge" id="count">0</span></button>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap">© 2026 HOODLAB — Démonstration. Prix TTC, TVA non applicable art. 293 B du CGI. <a href="#/cgv">CGV</a><a href="#/rgpd">RGPD</a><a href="#/mentions">Mentions légales</a><a href="#/admin">Admin</a></div></footer>
+<div class="modal" id="modal"><div class="panel" id="modalBody"></div></div>
+<script>
+const PRODUCTS=[
+ {id:1,name:"Hoodie Noir Signature",price:49.90,category:"Classiques",color:"#20242b",featured:true,desc:"Coton épais 420g, coupe relax, impression discrète."},
+ {id:2,name:"Hoodie Beige Premium",price:54.90,category:"Premium",color:"#c9b9a3",featured:true,desc:"Mélange coton bio, intérieur brossé, finitions renforcées."},
+ {id:3,name:"Hoodie Orange Accent",price:44.90,category:"Classiques",color:"#ff5a1f",featured:true,desc:"Teinte vive, poche kangourou, cordons contrastés."},
+ {id:4,name:"Hoodie Vert Sauge",price:52.90,category:"Premium",color:"#7d947e",featured:false,desc:"Color circulation, coupe oversize, doux au toucher."},
+ {id:5,name:"Hoodie Gris Chiné",price:39.90,category:"Essentiels",color:"#8b8f96",featured:false,desc:"Léger et polyvalent, parfait pour tous les jours."},
+ {id:6,name:"Hoodie Bleu Nuit",price:57.90,category:"Premium",color:"#24314d",featured:false,desc:"Édition limitée, broderie poitrine, tissu dense."}
+];
+const SHIP=[{id:'mrelay',name:'Mondial Relay — point relais',price:4.15},{id:'colissimo',name:'Colissimo — à domicile',price:7.59}];
+const store={cart:JSON.parse(localStorage.getItem('hl_cart')||'[]'),orders:JSON.parse(localStorage.getItem('hl_orders')||'[]'),user:JSON.parse(localStorage.getItem('hl_user')||'null'),products:JSON.parse(localStorage.getItem('hl_products')||JSON.stringify(PRODUCTS)),theme:localStorage.getItem('hl_theme')||'light'};
+const save=()=>{localStorage.setItem('hl_cart',JSON.stringify(store.cart));localStorage.setItem('hl_orders',JSON.stringify(store.orders));localStorage.setItem('hl_user',JSON.stringify(store.user));localStorage.setItem('hl_products',JSON.stringify(store.products))};
+const api=async(p,opt)=>{try{const r=await fetch(p,opt);return await r.json()}catch(e){return null}};
+async function loadShared(){if(location.protocol==='file:')return;const p=await api('/api/products');if(Array.isArray(p)&&p.length){store.products=p;localStorage.setItem('hl_products',JSON.stringify(p))}const o=await api('/api/orders');if(Array.isArray(o)){store.orders=o;localStorage.setItem('hl_orders',JSON.stringify(o))}route()}
+const $=(s,r=document)=>r.querySelector(s),app=$('#app');
+const euro=n=>Number(n).toFixed(2).replace('.',',')+' €';
+function hoodie(c){return `<svg width="130" height="150" viewBox="0 0 130 150" aria-hidden="true"><path d="M38 38 L18 55 L28 100 L44 94 L40 55Z" fill="${c}"/><path d="M92 38 L112 55 L102 100 L86 94 L90 55Z" fill="${c}"/><rect x="38" y="32" width="54" height="78" rx="12" fill="${c}"/><path d="M50 32 Q65 50 80 32" fill="#ffffff22" stroke="#0003"/><rect x="52" y="78" width="26" height="16" rx="4" fill="#0002"/><text x="65" y="72" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif" font-weight="700">HOODLAB</text></svg>`}
+function cartCount(){$('#count').textContent=store.cart.reduce((a,i)=>a+i.qty,0)}
+function go(hash){location.hash=hash}
+function card(p){return `<article class="card"><div class="art">${hoodie(p.color)}</div><h3>${p.name}</h3><p class="meta">${p.category} · ${euro(p.price)}</p><div class="row"><span class="price">${euro(p.price)}</span><button class="btn" onclick="add('${p.id}')">Ajouter</button></div></article>`}
+function add(id){const p=store.products.find(x=>x.id==id);const line=store.cart.find(i=>i.id==id);if(line)line.qty++;else store.cart.push({id:id,qty:1});save();cartCount();toast('Ajouté au panier')}
+function toast(t){const d=document.createElement('div');d.textContent=t;d.style.cssText='position:fixed;bottom:20px;right:20px;background:#1b1f26;color:#fff;padding:12px 18px;border-radius:10px;z-index:99';document.body.append(d);setTimeout(()=>d.remove(),1800)}
+function totals(){const sub=store.cart.reduce((a,i)=>a+(store.products.find(p=>p.id==i.id)?.price||0)*i.qty,0);return{sub}}
+function renderHome(){app.innerHTML=`<section class="hero"><div><h1>Des hoodies qui tiennent dans le temps.</h1><p class="muted">Coton dense, coupes carboxylées et prix justes. Livraison en point relais ou à domicile partout en France.</p><p><a class="btn" href="#/catalogue">Découvrir la collection</a></p></div><div class="hero-art">${hoodie('#ff5a1f')}${hoodie('#20242b')}</div></section><h2>À la une</h2><div class="grid">${store.products.filter(p=>p.featured).map(card).join('')}</div>`}
+let filter='Tous',query='';
+function renderCatalog(){const list=store.products.filter(p=>(filter==='Tous'||p.category===filter)&&p.name.toLowerCase().includes(query.toLowerCase()));app.innerHTML=`<div class="section"><h1>La boutique</h1><div class="toolbar"><input id="q" placeholder="Rechercher…" value="${query}" oninput="query=this.value;renderCatalog()">${['Tous','Classiques','Premium','Essentiels'].map(c=>`<button class="chip ${filter===c?'on':''}" onclick="filter='${c}';renderCatalog()">${c}</button>`).join('')}</div><div class="grid">${list.map(card).join('')||'<p class="muted">Aucun produit.</p>'}</div></div>`}
+function renderProduct(id){const p=store.products.find(x=>x.id==id);if(!p)return renderCatalog();app.innerHTML=`<div class="panel" style="max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:24px"><div class="art" style="background:#e9e5df;border-radius:14px;display:flex;justify-content:center;align-items:center">${hoodie(p.color)}</div><div><h1>${p.name}</h1><p class="price">${euro(p.price)}</p><p class="muted">${p.description||p.desc||''}</p><label>Taille</label><select id="size"><option>S</option><option>M</option><option>L</option><option>XL</option></select><p><button class="btn" onclick="add('${p.id}')">Ajouter au panier</button></p><p class="small muted">Livraison Mondial Relay dès 4,15 € · Retrait sous 14 jours.</p></div></div>`}
+function renderCart(){const{sub}=totals();const lines=store.cart.map(i=>{const p=store.products.find(x=>x.id==i.id);return p?`<div class="line"><span>${p.name} × ${i.qty}</span><span>${euro(p.price*i.qty)} <button class="pill" onclick="rem('${p.id}')">×</button></span></div>`:''}).join('');app.innerHTML=`<div class="panel"><h1>Votre panier</h1>${lines||'<p class="muted">Panier vide.</p>'}<div class="line total"><span>Sous-total</span><span>${euro(sub)}</span></div><p><a class="btn" href="#/checkout">Passer commande</a></p></div>`}
+function rem(id){store.cart=store.cart.filter(i=>i.id!=id);save();cartCount();renderCart()}
+function renderCheckout(){const{sub}=totals();app.innerHTML=`<div class="panel"><h1>Commande</h1><form onsubmit="placeOrder(event)"><label>E-mail</label><input name="email" type="email" required><label>Prénom et nom</label><input name="name" required><label>Téléphone</label><input name="phone" required><label>Adresse</label><input name="addr" required><label>Code postal / ville</label><input name="zip" required><label>Livraison</label><select name="ship" id="ship" onchange="renderShipTotal()">${SHIP.map(s=>`<option value="${s.id}">${s.name} — ${euro(s.price)}</option>`).join('')}</select><p class="small muted" id="payMode">Chargement du mode de paiement…</p><div class="line total"><span>Total</span><span id="grand">${euro(sub+SHIP[0].price)}</span></div><p><button class="btn" type="submit">Confirmer la commande</button></p></form></div>`;fetch('/api/config').then(r=>r.json()).then(d=>{const el=$('#payMode');if(el)el.textContent=d.mode==='mock'?'Simulation : ajoutez STRIPE_SECRET_KEY dans .env pour activer le paiement réel.':'Stripe Checkout — mode '+d.mode+' (paiement sécurisé sur stripe.com).';}).catch(()=>{const el=$('#payMode');if(el)el.textContent='Ouvrez via node server.js pour activer Stripe.';})}
+function renderShipTotal(){const s=SHIP.find(x=>x.id===$('#ship').value);$('#grand').textContent=euro(totals().sub+s.price)}
+async function placeOrder(e){e.preventDefault();if(!store.cart.length)return toast('Panier vide');const f=new FormData(e.target),s=SHIP.find(x=>x.id===f.get('ship'));const num='CMD-'+Date.now().toString().slice(-6);const order={num,date:new Date().toLocaleDateString('fr-FR'),items:store.cart.map(i=>{const p=store.products.find(x=>x.id==i.id);return{...i,price:p.price,product:p};}),customer:{email:f.get('email'),name:f.get('name'),phone:f.get('phone'),addr:f.get('addr'),zip:f.get('zip')},ship:s,total:totals().sub+s.price,status:'En attente de paiement'};store.orders.push(order);store.cart=[];save();cartCount();try{const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order})});const d=await r.json();if(d.url){location.href=d.url;return;}}catch(err){}go('#/paiement-mock/'+num)}
+function renderMock(num){const o=store.orders.find(x=>x.num===num);if(!o)return renderCart();app.innerHTML=`<div class="panel"><h1>Paiement (simulation)</h1><p class="muted">Aucune clé Stripe n'est configurée sur le serveur. Cliquez pour simuler le paiement.</p><div class="line total"><span>Commande ${o.num}</span><span>${euro(o.total)}</span></div><p><button class="btn" onclick="mockPay('${num}')">Payer ${euro(o.total)} (simulation)</button></p></div>`}
+function mockPay(num){const o=store.orders.find(x=>x.num===num);o.status='Payée';save();go('#/commande/'+num)}
+function renderOrder(num){const o=store.orders.find(x=>x.num===num);if(!o)return `<div class="panel"><h1>Commande introuvable</h1><a href="#/suivi">Rechercher</a></div>`;app.innerHTML=`<div class="panel"><h1>✅ Commande confirmée</h1><p>Numéro : <strong>${o.num}</strong> · ${o.date}</p><div class="line"><span>Articles</span><span>${o.items.reduce((a,i)=>a+i.qty,0)}</span></div><div class="line"><span>Livraison</span><span>${o.ship.name}</span></div><div class="line total"><span>Total payé</span><span>${euro(o.total)}</span></div><p class="muted small">Statut : ${o.status}. Un e-mail de confirmation serait envoyé en production.</p><p><a class="btn ghost" href="#/catalogue">Continuer mes achats</a></p></div>`}
+function renderTracking(){app.innerHTML=`<div class="panel"><h1>Suivre une commande</h1><form onsubmit="track(event)"><label>Numéro de commande</label><input name="num" required placeholder="CMD-123456"><p><button class="btn">Rechercher</button></p></form><div id="trackResult"></div></div>`}
+function track(e){e.preventDefault();const n=new FormData(e.target).get('num'),o=store.orders.find(x=>x.num===n);$('#trackResult').innerHTML=o?`<div class="line"><span>${o.num}</span><span class="ok">${o.status}</span></div><p class="small muted">${o.ship.name} · ${euro(o.total)}</p>`:'<p class="muted">Commande introuvable.</p>'}
+function renderLegal(kind){const d={cgv:['Conditions générales de vente','<p>Vente en ligne de hoodies. Prix en EUR, TVA non applicable (art. 293 B CGI). Droit de rétractation de 14 jours à compter de la réception. Produits neufs, retours dans leur état d’origine. Contact : bonjour@hoodlab.fr.</p>'],rgpd:['Confidentialité (RGPD)','<p>Données collectées : compte, commandes, cookies de panier et de thème. Finalités : gestion des commandes. Durée : 3 ans. Droits : accès, rectification, suppression via bonjour@hoodlab.fr.</p>'],mentions:['Mentions légales','<p>HOODLAB — démonstration. Éditeur : Atelier Hood, micro-entreprise. Hébergement : fournisseur à préciser avant production. Contact : bonjour@hoodlab.fr.</p>']}[kind]||['Informations',''];app.innerHTML=`<div class="panel"><h1>${d[0]}</h1>${d[1]}<p><a href="#/">Retour</a></p></div>`}
+function renderAdmin(){if(!store.user||store.user.role!=='admin'){app.innerHTML=`<div class="panel"><h1>Espace admin</h1><p class="muted">Connectez-vous en tant qu'administrateur (compte démo : admin@hoodlab.fr / admin123).</p><button class="btn" onclick="openLogin()">Se connecter</button></div>`;return}app.innerHTML=`<div class="section"><h1>Tableau de bord</h1><div class="toolbar"><span class="pill">${store.orders.length} commandes</span><span class="pill">${store.products.length} produits</span><span class="pill">${euro(store.orders.reduce((a,o)=>a+o.total,0))} de CA</span></div><h2>Commandes</h2><table><tr><th>Numéro</th><th>Client</th><th>Total</th><th>Statut</th><th></th></tr>${store.orders.map(o=>`<tr><td>${o.num}</td><td>${o.customer.name}</td><td>${euro(o.total)}</td><td>${o.status}</td><td><button class="pill" onclick="ship('${o.num}')">Marquer expédiée</button></td></tr>`).join('')}</table><h2>Produits</h2><table><tr><th>Nom</th><th>Prix</th><th>Catégorie</th></tr>${store.products.map(p=>`<tr><td>${p.name}</td><td>${euro(p.price)}</td><td>${p.category}</td></tr>`).join('')}</table><form class="panel" onsubmit="addProduct(event)"><h3>Ajouter un produit</h3><label>Nom</label><input name="name" required><label>Prix</label><input name="price" type="number" step="0.01" required><label>Catégorie</label><input name="cat" value="Essentiels" required><p><button class="btn">Ajouter</button></p></form></div>`}
+async function ship(n){const o=store.orders.find(x=>x.num===n);if(!o)return;o.status='Expédiée';save();await api('/api/orders',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({num:n,status:'Expédiée'})});const list=await api('/api/orders');if(Array.isArray(list)){store.orders=list;localStorage.setItem('hl_orders',JSON.stringify(list))}renderAdmin()}
+async function addProduct(e){e.preventDefault();const f=new FormData(e.target);const p={id:Date.now(),name:f.get('name'),price:Number(f.get('price')),category:f.get('cat'),color:'#555b66',featured:false,description:'Produit ajouté via l’admin.'};store.products.push(p);save();await api('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});const list=await api('/api/products');if(Array.isArray(list)){store.products=list;localStorage.setItem('hl_products',JSON.stringify(list))}renderAdmin()}
+function openLogin(){const m=$('#modal'),b=$('#modalBody');b.innerHTML=`<h2>Connexion</h2><form onsubmit="login(event)"><label>E-mail</label><input name="email" type="email" required><label>Mot de passe</label><input name="pass" type="password" required><p class="small muted">Démo : admin@hoodlab.fr / admin123</p><p><button class="btn">Se connecter</button> <button type="button" class="btn ghost" onclick="closeModal()">Annuler</button></p></form>`;m.classList.add('open')}
+function closeModal(){$('#modal').classList.remove('open')}
+function login(e){e.preventDefault();const f=new FormData(e.target);const em=f.get('email'),pw=f.get('pass');if(em==='admin@hoodlab.fr'&&pw==='admin123')store.user={email:em,role:'admin'};else if(pw.length>=4)store.user={email:em,role:'client'};else return toast('Mot de passe trop court');save();closeModal();$('#userBtn').textContent=store.user.role==='admin'?'Admin':store.user.email.split('@')[0];route()}
+function route(){const h=location.hash.replace(/^#\/?/,'');cartCount();document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===h.split('/')[0]||(h===''&&a.dataset.nav==='home')));if(h.startsWith('commande/'))renderOrder(h.split('/')[1]);else if(h.startsWith('paiement-mock/'))renderMock(h.split('/')[1]);else if(h==='catalogue')renderCatalog();else if(h==='checkout')renderCheckout();else if(h==='suivi')renderTracking();else if(h==='cgv'||h==='rgpd'||h==='mentions')renderLegal(h);else if(h==='admin')renderAdmin();else renderHome()}
+$('#theme').onclick=()=>{store.theme=store.theme==='dark'?'light':'dark';document.documentElement.classList.toggle('dark',store.theme==='dark');localStorage.setItem('hl_theme',store.theme)};
+$('#cartBtn').onclick=()=>go('#/checkout');$('#userBtn').onclick=()=>store.user?(go('#/admin')):openLogin();
+document.documentElement.classList.toggle('dark',store.theme==='dark');window.addEventListener('hashchange',route);route();loadShared();
+</script>
+</body>
+</html>

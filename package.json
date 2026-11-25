@@ -1,0 +1,14 @@
+{
+  "name": "hoodlab-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Boutique e-commerce full-stack sans dépendances (Node 24 + SQLite + Stripe Checkout)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

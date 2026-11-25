@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: hoodlab
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/config
+    envVars:
+      - key: PORT
+        value: 4242
+      - key: DATA_DIR
+        value: /data/shop.db
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
+    disk:
+      name: hoodlab-data
+      mountPath: /data
+      sizeGB: 1
