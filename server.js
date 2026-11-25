@@ -22,7 +22,7 @@ function loadEnv() {
 }
 loadEnv();
 const rawKey = process.env.STRIPE_SECRET_KEY || '';
-const STRIPE_KEY = (/^sk_(test|live)_[A-Za-z0-9]{10,}$/.test(rawKey) && !/^sk_(test|live)_x+$/.test(rawKey)) ? rawKey : '';
+const STRIPE_KEY = (/^(sk|rk)_(test|live)_[A-Za-z0-9]{10,}$/.test(rawKey) && !/^(sk|rk)_(test|live)_x+$/.test(rawKey)) ? rawKey : '';
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 const db = new DatabaseSync(DB_FILE);
@@ -78,7 +78,7 @@ const server = http.createServer(async (req, res) => {
     const u = new URL(req.url, 'http://' + req.headers.host);
     if (req.method === 'OPTIONS') return send(res, 204, '');
 
-    if (u.pathname === '/api/config') return json(res, 200, { stripeEnabled: !!STRIPE_KEY, mode: STRIPE_KEY.startsWith('sk_live') ? 'live' : (STRIPE_KEY ? 'test' : 'mock'), database: 'sqlite' });
+    if (u.pathname === '/api/config') return json(res, 200, { stripeEnabled: !!STRIPE_KEY, mode: /(sk|rk)_live/.test(STRIPE_KEY) ? 'live' : (STRIPE_KEY ? 'test' : 'mock'), database: 'sqlite' });
 
     if (u.pathname === '/api/products') {
       if (req.method === 'GET') return json(res, 200, allProducts());
@@ -161,5 +161,5 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log('HOODLAB → http://localhost:' + PORT);
   console.log('SQLite →', DB_FILE);
-  console.log('Stripe:', STRIPE_KEY ? (STRIPE_KEY.startsWith('sk_live') ? 'LIVE' : 'TEST') : 'absent (mode simulation)');
+  console.log('Stripe:', STRIPE_KEY ? (/(sk|rk)_live/.test(STRIPE_KEY) ? 'LIVE' : 'TEST') : 'absent (mode simulation)');
 });
