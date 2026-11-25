@@ -112,7 +112,7 @@ const server = http.createServer(async (req, res) => {
       const origin = process.env.PUBLIC_URL || ('http://' + req.headers.host);
       if (!STRIPE_KEY) return json(res, 200, { mode: 'mock', url: origin + '/#/paiement-mock/' + encodeURIComponent(order.num) });
       const params = {
-        mode: 'payment', 'payment_method_types[0]': 'card',
+        mode: 'payment', 'allowed_payment_method_types[0]': 'card',
         success_url: origin + '/success?order=' + encodeURIComponent(order.num) + '&session_id={CHECKOUT_SESSION_ID}',
         cancel_url: origin + '/#/checkout', 'metadata[order_num]': order.num,
       };
