@@ -17,7 +17,3 @@ services:
         sync: false
       - key: PUBLIC_URL
         sync: false
-    disk:
-      name: hoodlab-data
-      mountPath: /data
-      sizeGB: 1
